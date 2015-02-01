@@ -13,5 +13,10 @@ VOLUME /data
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
+# Drop privileges, set home for ccg-user
+USER ccg-user
+ENV HOME /data
+WORKDIR /data
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["devpi"]
