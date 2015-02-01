@@ -22,13 +22,10 @@ function initialise_devpi {
     devpi-server --status
 }
 
+defaults
 
 if [ "$1" = 'devpi' ]; then
-    [[ -f $DEVPI_SERVERDIR/.serverversion ]] || initialize=yes
-
-    defaults
-
-    if [[ $initialize = yes ]]; then
+    if [ ! -f  $DEVPI_SERVERDIR/.serverversion ]; then
         initialise_devpi
     fi
 
