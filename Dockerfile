@@ -1,6 +1,6 @@
 #
 FROM muccg/python-base:debian8-2.7
-MAINTAINER ccg <ccgdevops@googlegroups.com>
+MAINTAINER https://github.com/muccg
 
 RUN pip install \
   "devpi-client>=2.0.4,<2.1" \
