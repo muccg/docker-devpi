@@ -2,10 +2,15 @@
 FROM muccg/python-base:debian8-2.7
 MAINTAINER https://github.com/muccg
 
-RUN pip install \
-  "devpi-client>=2.0.4,<2.1" \
-  "devpi-server>=2.1.3,<2.2" \
-  "requests>=2.5.0,<2.6"
+ARG DEVPI_VERSION
+ARG PIP_INDEX_URL=https://pypi.python.org/simple/
+ARG PIP_TRUSTED_HOST=127.0.0.1
+
+ENV DEVPI_VERSION $DEVPI_VERSION
+
+RUN NO_PROXY=$PIP_TRUSTED_HOST pip --trusted-host $PIP_TRUSTED_HOST install -i $PIP_INDEX_URL --upgrade \
+  "devpi-client>=2.3.0,<2.4" \
+  "devpi-server==$DEVPI_VERSION"
 
 EXPOSE 3141
 VOLUME /data
