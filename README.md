@@ -19,13 +19,14 @@ Start using
 docker run -d --name devpi \
     --publish 3141:3141 \
     --volume /srv/docker/devpi:/data \
-    --env=DEVPI_PASSWORD=changemetoyoulongsecret \
+    --env=DEVPI_PASSWORD=changemetoyourlongsecret \
     --restart always \
     muccg/docker-devpi
 ```
-Please set DEVPI_PASSWORD to a secret otherwise an attacker can *execute arbitrary code* in your application by uploading modified packages.
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
+
+Please set DEVPI_PASSWORD to a secret otherwise an attacker can *execute arbitrary code*.
 
 ## Client side usage
 
@@ -56,11 +57,11 @@ pip wheel --download=packages --wheel-dir=wheelhouse -r requirements.txt
 pip install "devpi-client>=2.3.0" \
 && export HOST_IP=$(ip route| awk '/^default/ {print $3}') \
 && if devpi use http://$HOST_IP:3141>/dev/null; then \
-       devpi use http://$HOST_IP:3141/${DEVPI_USER:-app}/${DEVPI_INDEX:-dev} --set-cfg \
-    && devpi login ${DEVPI_USER:-app} --password=$DEVPI_PASSWORD  \
+       devpi use http://$HOST_IP:3141/root/public --set-cfg \
+    && devpi login root --password=$DEVPI_PASSWORD  \
     && devpi upload --from-dir --formats=* ./wheelhouse ./packages; \
 else \
-    echo No started devpi container found at http://$HOST_IP:3141; \
+    echo "No started devpi container found at http://$HOST_IP:3141"; \
 fi
 ```
 

@@ -12,21 +12,12 @@ function defaults {
 
 function initialise_devpi {
     echo "[RUN]: Initialise devpi-server"
-    chown -R ccg-user:ccg-user /data
-
     devpi-server --restrict-modify root --start --host 127.0.0.1 --port 3141
     devpi-server --status
     devpi use http://localhost:3141
-
-    # Check the root password has been changed
-    if devpi login root --password='' > /dev/null; then
-        devpi login root --password=''
-        devpi user -m root password="${DEVPI_PASSWORD}"
-        devpi index -y -c public pypi_whitelist='*'
-    else
-        echo root password already changed
-    fi
-
+    devpi login root --password=''
+    devpi user -m root password="${DEVPI_PASSWORD}"
+    devpi index -y -c public pypi_whitelist='*'
     devpi-server --stop
     devpi-server --status
 }
