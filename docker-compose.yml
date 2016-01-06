@@ -1,5 +1,5 @@
 devpi:
-  image: wassname/docker-devpi
+  image: muccg/docker-devpi
   volumes:
     - /srv/docker/devpi:/data
   ports:
