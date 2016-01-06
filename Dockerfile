@@ -10,7 +10,7 @@ ENV DEVPI_VERSION $DEVPI_VERSION
 
 RUN NO_PROXY=$PIP_TRUSTED_HOST pip --trusted-host $PIP_TRUSTED_HOST install -i $PIP_INDEX_URL --upgrade \
   "devpi-client>=2.3" "requests>=2.9.0" \
-  "devpi-server==$DEVPI_VERSION"		+  "devpi-server==${DEVPI_VERSION:-2.5.3}"
+  "devpi-server==${DEVPI_VERSION:-2.5.3}"
 
 EXPOSE 3141
 VOLUME /data
