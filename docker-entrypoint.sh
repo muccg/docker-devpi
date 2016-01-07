@@ -12,7 +12,7 @@ function defaults {
 
 function initialise_devpi {
     echo "[RUN]: Initialise devpi-server"
-    devpi-server --start --host 127.0.0.1 --port 3141
+    devpi-server --restrict-modify root --start --host 127.0.0.1 --port 3141
     devpi-server --status
     devpi use http://localhost:3141
     devpi login root --password=''
@@ -30,7 +30,7 @@ if [ "$1" = 'devpi' ]; then
     fi
 
     echo "[RUN]: Launching devpi-server"
-    devpi-server --host 0.0.0.0 --port 3141 2>&1 | tee /data/server/devpi.log
+    devpi-server --restrict-modify root --host 0.0.0.0 --port 3141 2>&1 | tee /data/server/devpi.log
     exit $?
 fi
 

@@ -22,7 +22,6 @@ DEVPI_VERSION="2.5.3"
 
 image="${REPO}/devpi"
 echo "################################################################### ${image}"
-        
 ## warm up cache for CI
 docker pull ${image} || true
 
