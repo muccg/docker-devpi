@@ -30,8 +30,7 @@ if [ "$1" = 'devpi' ]; then
     fi
 
     echo "[RUN]: Launching devpi-server"
-    devpi-server --restrict-modify root --host 0.0.0.0 --port 3141 2>&1 | tee /data/server/devpi.log
-    exit $?
+    exec devpi-server --restrict-modify root --host 0.0.0.0 --port 3141
 fi
 
 echo "[RUN]: Builtin command not provided [devpi]"
