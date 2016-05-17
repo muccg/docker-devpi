@@ -9,7 +9,7 @@ set -e
 REPO="muccg"
 DATE=`date +%Y.%m.%d`
 
-DEVPI_VERSION="2.5.3"
+DEVPI_VERSION="4.0.0"
 
 # ALternative config to use local proxy
 #DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
