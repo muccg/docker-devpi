@@ -5,31 +5,23 @@
 
 # break on error
 set -e
+set -x
+set -a
 
-REPO="muccg"
 DATE=`date +%Y.%m.%d`
+COMPOSE='docker-compose -f docker-compose-build.yml run docker19'
 
-DEVPI_VERSION="4.0.0"
+. ./vars.env
 
-# ALternative config to use local proxy
-#DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
-#HTTP_PROXY="http://${DOCKER_HOST}:3128"
-#PIP_INDEX_URL="http://${DOCKER_HOST}:3141/root/pypi/+simple/"
-#PIP_TRUSTED_HOST=${DOCKER_HOST}
-#: ${DOCKER_BUILD_OPTIONS:="--no-cache --pull=true --build-arg PIP_TRUSTED_HOST=${PIP_TRUSTED_HOST} --build-arg PIP_INDEX_URL=${PIP_INDEX_URL} --build-arg DEVPI_VERSION=${DEVPI_VERSION}"}
-
-: ${DOCKER_BUILD_OPTIONS:="--pull=true --build-arg DEVPI_VERSION=${DEVPI_VERSION}"}
-
-image="${REPO}/devpi"
-echo "################################################################### ${image}"
 ## warm up cache for CI
-docker pull ${image} || true
+docker pull ${IMAGE} || true
 
-for tag in "${image}:latest" "${image}:latest-${DATE}" "${image}:${DEVPI_VERSION}"; do
-    echo "############################################################# ${tag}"
-    set -x
-    docker build ${DOCKER_BUILD_OPTIONS} -t ${tag} .
-    docker inspect ${tag}
-    docker push ${tag}
-    set +x
-done
+${COMPOSE} build --pull=true --build-arg ARG_DEVPI_VERSION=${DEVPI_VERSION} -t ${IMAGE}:latest /data
+${COMPOSE} inspect ${IMAGE}:latest
+
+${COMPOSE} tag -f ${IMAGE}:latest ${IMAGE}:latest-${DATE}
+${COMPOSE} tag -f ${IMAGE}:latest ${IMAGE}:${DEVPI_VERSION}
+
+${COMPOSE} push ${IMAGE}:latest
+${COMPOSE} push ${IMAGE}:latest-${DATE}
+${COMPOSE} push ${IMAGE}:${DEVPI_VERSION}
