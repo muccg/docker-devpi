@@ -2,11 +2,10 @@
 FROM python:2.7-alpine
 MAINTAINER https://github.com/muccg
 
-ARG DEVPI_VERSION
-ARG PIP_INDEX_URL=https://pypi.python.org/simple/
-ARG PIP_TRUSTED_HOST=127.0.0.1
+ARG ARG_DEVPI_VERSION
+ARG ARG_PIP_OPTS="--upgrade --no-cache-dir"
 
-ENV DEVPI_VERSION $DEVPI_VERSION
+ENV DEVPI_VERSION $ARG_DEVPI_VERSION
 ENV VIRTUAL_ENV /env
 
 # devpi user
@@ -17,12 +16,12 @@ RUN addgroup -S -g 1000 devpi \
 RUN apk add --no-cache bash
  
 # create a virtual env in $VIRTUAL_ENV, ensure it respects pip version
-RUN pip install $PIP_OPTS virtualenv \
+RUN pip install $ARG_PIP_OPTS virtualenv \
     && virtualenv $VIRTUAL_ENV \
-    && $VIRTUAL_ENV/bin/pip install --upgrade --no-cache-dir pip==$PYTHON_PIP_VERSION
+    && $VIRTUAL_ENV/bin/pip install $ARG_PIP_OPTS pip==$PYTHON_PIP_VERSION
 ENV PATH $VIRTUAL_ENV/bin:$PATH
 
-RUN NO_PROXY=$PIP_TRUSTED_HOST pip --trusted-host $PIP_TRUSTED_HOST install -i $PIP_INDEX_URL --upgrade \
+RUN pip install $ARG_PIP_OPTS \
     "devpi-client==2.6.3" \
     "devpi-server==$DEVPI_VERSION"
 
