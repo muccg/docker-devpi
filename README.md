@@ -12,7 +12,7 @@ breaking builds.
 
 ## Installation
 
-`docker pull muccg/docker-devpi`
+`docker pull muccg/devpi`
 
 ## Quickstart
 
@@ -24,7 +24,7 @@ docker run -d --name devpi \
     --volume /srv/docker/devpi:/data \
     --env=DEVPI_PASSWORD=changemetoyourlongsecret \
     --restart always \
-    muccg/docker-devpi
+    muccg/devpi
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml)
