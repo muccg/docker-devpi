@@ -10,7 +10,7 @@ services:
     volumes:
       - ./data:/data
     ports:
-      - 3142:3141
+      - 3141:3141
     environment:
       - DEVPI_PASSWORD=
     restart: always
