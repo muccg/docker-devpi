@@ -9,19 +9,14 @@ set -x
 set -a
 
 DATE=`date +%Y.%m.%d`
-COMPOSE='docker-compose -f docker-compose-build.yml run docker19'
+DOCKER_DEVPI_VERSION=4.0.0
 
-. ./vars.env
+docker-compose build devpi
+docker inspect muccg/devpi:latest
 
-## warm up cache for CI
-docker pull ${IMAGE} || true
+docker tag muccg/devpi:latest muccg/devpi:latest-${DATE}
+docker tag muccg/devpi:latest muccg/devpi:${DOCKER_DEVPI_VERSION}
 
-${COMPOSE} build --pull=true --build-arg ARG_DEVPI_VERSION=${DEVPI_VERSION} -t ${IMAGE}:latest /data
-${COMPOSE} inspect ${IMAGE}:latest
-
-${COMPOSE} tag -f ${IMAGE}:latest ${IMAGE}:latest-${DATE}
-${COMPOSE} tag -f ${IMAGE}:latest ${IMAGE}:${DEVPI_VERSION}
-
-${COMPOSE} push ${IMAGE}:latest
-${COMPOSE} push ${IMAGE}:latest-${DATE}
-${COMPOSE} push ${IMAGE}:${DEVPI_VERSION}
+docker push muccg/devpi:latest
+docker push muccg/devpi:latest-${DATE}
+docker push muccg/devpi:${DOCKER_DEVPI_VERSION}

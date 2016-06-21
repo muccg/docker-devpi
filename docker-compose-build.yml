@@ -1,9 +1,0 @@
-# docker socket shared with the host
-# docker creds shared with the host
-docker19:
-  image: docker:1.9.1
-  env_file: vars.env
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - ~/.docker/config.json:/root/.docker/config.json
-    - ./:/data

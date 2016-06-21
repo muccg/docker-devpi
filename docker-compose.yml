@@ -1,9 +1,16 @@
-devpi:
-  image: muccg/docker-devpi
-  volumes:
-    - /srv/docker/devpi:/data
-  ports:
-    - 3141:3141
-  environment:
-    - DEVPI_PASSWORD=
-  restart: always
+version: '2'
+services:
+
+  devpi:
+    build:
+      context: ./
+      args:
+        ARG_DEVPI_VERSION: ${DOCKER_DEVPI_VERSION}
+    image: muccg/devpi
+    volumes:
+      - ./data:/data
+    ports:
+      - 3142:3141
+    environment:
+      - DEVPI_PASSWORD=
+    restart: always
