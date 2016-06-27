@@ -24,6 +24,7 @@ ENV PATH $VIRTUAL_ENV/bin:$PATH
 
 RUN NO_PROXY=$PIP_TRUSTED_HOST pip --trusted-host $PIP_TRUSTED_HOST install -i $PIP_INDEX_URL --upgrade \
     "devpi-client==2.6.3" \
+    "devpi-web==3.1.0" \
     "devpi-server==$DEVPI_VERSION"
 
 EXPOSE 3141
