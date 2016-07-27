@@ -14,8 +14,6 @@ DOCKER_DEVPI_VERSION=4.1.0
 
 
 ci_docker_login() {
-    info 'Docker login'
-
     if [ -z ${DOCKER_EMAIL+x} ]; then
         DOCKER_EMAIL=${bamboo_DOCKER_EMAIL}
     fi
@@ -27,7 +25,6 @@ ci_docker_login() {
     fi
 
     docker login -e "${DOCKER_EMAIL}" -u ${DOCKER_USERNAME} --password="${DOCKER_PASSWORD}"
-    success "Docker login"
 }
 
 
