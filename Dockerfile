@@ -22,8 +22,8 @@ RUN pip install $ARG_PIP_OPTS virtualenv \
 ENV PATH $VIRTUAL_ENV/bin:$PATH
 
 RUN pip install $ARG_PIP_OPTS \
-    "devpi-client==2.6.3" \
-    "devpi-web==3.1.0" \
+    "devpi-client==2.6.4" \
+    "devpi-web==3.1.1" \
     "devpi-server==$DEVPI_VERSION"
 
 EXPOSE 3141
