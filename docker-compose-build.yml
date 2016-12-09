@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+  dev:
+    build:
+      context: ./
+      args:
+        ARG_DEVPI_SERVER_VERSION: ${DOCKER_DEVPI_SERVER_VERSION}
+        ARG_DEVPI_WEB_VERSION: ${DOCKER_DEVPI_WEB_VERSION}
+        ARG_DEVPI_CLIENT_VERSION: ${DOCKER_DEVPI_CLIENT_VERSION}
+    image: muccg/devpi:${GIT_BRANCH}
+
+  prod:
+    extends:
+      file: docker-compose-build.yml
+      service: dev
+    image: muccg/devpi:${DOCKER_DEVPI_SERVER_VERSION}
+
+  latest:
+    extends:
+      file: docker-compose-build.yml
+      service: dev
+    image: muccg/devpi:latest
