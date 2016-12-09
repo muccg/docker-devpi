@@ -2,11 +2,7 @@ version: '2'
 services:
 
   devpi:
-    build:
-      context: ./
-      args:
-        ARG_DEVPI_VERSION: ${DOCKER_DEVPI_VERSION}
-    image: muccg/devpi
+      image: muccg/devpi:latest
     volumes:
       - ./data:/data
     ports:

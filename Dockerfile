@@ -1,11 +1,17 @@
 #
-FROM python:2.7-alpine
-MAINTAINER https://github.com/muccg
+FROM python:3.5-alpine
+MAINTAINER https://github.com/muccg/
 
-ARG ARG_DEVPI_VERSION
-ARG ARG_PIP_OPTS="--upgrade --no-cache-dir"
+ARG ARG_DEVPI_SERVER_VERSION
+ARG ARG_DEVPI_WEB_VERSION
+ARG ARG_DEVPI_CLIENT_VERSION
 
-ENV DEVPI_VERSION $ARG_DEVPI_VERSION
+ENV DEVPI_SERVER_VERSION $ARG_DEVPI_SERVER_VERSION
+ENV DEVPI_WEB_VERSION $ARG_DEVPI_WEB_VERSION
+ENV DEVPI_CLIENT_VERSION $ARG_DEVPI_CLIENT_VERSION
+ENV PIP_NO_CACHE_DIR="off"
+ENV PIP_INDEX_URL="https://pypi.python.org/simple"
+ENV PIP_TRUSTED_HOST="127.0.0.1"
 ENV VIRTUAL_ENV /env
 
 # devpi user
@@ -16,15 +22,15 @@ RUN addgroup -S -g 1000 devpi \
 RUN apk add --no-cache bash
  
 # create a virtual env in $VIRTUAL_ENV, ensure it respects pip version
-RUN pip install $ARG_PIP_OPTS virtualenv \
+RUN pip install virtualenv \
     && virtualenv $VIRTUAL_ENV \
-    && $VIRTUAL_ENV/bin/pip install $ARG_PIP_OPTS pip==$PYTHON_PIP_VERSION
+    && $VIRTUAL_ENV/bin/pip install pip==$PYTHON_PIP_VERSION
 ENV PATH $VIRTUAL_ENV/bin:$PATH
 
-RUN pip install $ARG_PIP_OPTS \
-    "devpi-client==2.6.3" \
-    "devpi-web==3.1.0" \
-    "devpi-server==$DEVPI_VERSION"
+RUN pip install \
+    "devpi-client==${DEVPI_CLIENT_VERSION}" \
+    "devpi-web==${DEVPI_WEB_VERSION}" \
+    "devpi-server==${DEVPI_SERVER_VERSION}"
 
 EXPOSE 3141
 VOLUME /data
