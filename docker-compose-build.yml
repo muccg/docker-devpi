@@ -2,6 +2,8 @@ version: '2'
 services:
 
   dev:
+    env_file:
+      - .env
     build:
       context: ./
       args:
