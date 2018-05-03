@@ -12,7 +12,7 @@ function defaults {
 
 function initialise_devpi {
     echo "[RUN]: Initialise devpi-server"
-    devpi-server --restrict-modify root --start --host 127.0.0.1 --port 3141
+    devpi-server --restrict-modify root --start --host 127.0.0.1 --port 3141 --init
     devpi-server --status
     devpi use http://localhost:3141
     devpi login root --password=''
