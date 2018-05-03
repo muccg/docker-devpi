@@ -1,5 +1,5 @@
 #
-FROM python:3.5-alpine
+FROM python:3.6.5
 MAINTAINER https://github.com/muccg/
 
 ARG ARG_DEVPI_SERVER_VERSION
@@ -15,12 +15,9 @@ ENV PIP_TRUSTED_HOST="127.0.0.1"
 ENV VIRTUAL_ENV /env
 
 # devpi user
-RUN addgroup -S -g 1000 devpi \
-    && adduser -D -S -u 1000 -h /data -s /sbin/nologin -G devpi devpi
+RUN addgroup --system --gid 1000 devpi \
+    && adduser --disabled-password --system --uid 1000 --home /data --shell /sbin/nologin --gid 1000 devpi
 
-# entrypoint is written in bash
-RUN apk add --no-cache bash
- 
 # create a virtual env in $VIRTUAL_ENV, ensure it respects pip version
 RUN pip install virtualenv \
     && virtualenv $VIRTUAL_ENV \
