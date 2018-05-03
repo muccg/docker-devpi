@@ -1,6 +1,6 @@
 #
 FROM python:3.6.5
-MAINTAINER https://github.com/muccg/
+LABEL maintainer="https://github.com/muccg/"
 
 ARG ARG_DEVPI_SERVER_VERSION=4.4.0
 ARG ARG_DEVPI_WEB_VERSION=3.2.2
